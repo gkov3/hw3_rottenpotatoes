@@ -20,16 +20,21 @@ Background: movies have been added to database
   | Chicken Run             | G      | 21-Jun-2000  |
 
   And  I am on the RottenPotatoes home page
-  
+
 Scenario: restrict to movies with 'PG' or 'R' ratings
-  # enter step(s) to check the 'PG' and 'R' checkboxes
-  # enter step(s) to uncheck all other checkboxes
-  # enter step to "submit" the search form on the homepage
-  # enter step(s) to ensure that PG and R movies are visible
-  # enter step(s) to ensure that other movies are not visible
+	Given I check the following ratings: PG, R
+	And I uncheck the following ratings: PG-13, G
+	And I press ratings_submit
+	Then I should see the following movies: The Terminator, When Harry Met Sally, Amelie, The Incredibles , Raiders of the Lost Ark
+	And I should not see the following movies: Raiders of the Loast Ark,  Aladdin, The Help, Chocolat,2001: A Space Odyssey , Chicken Run
 
 Scenario: no ratings selected
-  # see assignment
+  Given I uncheck the following ratings: PG, R, PG-13,G
+  And I press ratings_submit
+  Then I should see none of the movies
 
 Scenario: all ratings selected
-  # see assignment
+  Given I check the following ratings: PG, R, PG-13,G
+  And I press ratings_submit
+  Then I should see all of the movies
+
